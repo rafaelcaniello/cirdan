@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { MatTableModule } from '@angular/material/table';
 import { HttpService } from '../../services/http.service';
+import { MatIconModule } from '@angular/material/icon';
+import { MatDialog } from '@angular/material/dialog';
+import { DetailModalComponent } from './components/detail-modal/detail-modal.component';
+import { firstValueFrom } from 'rxjs';
 
 export interface Ticket {
   id: string;
@@ -16,16 +20,17 @@ export interface Ticket {
 @Component({
   selector: 'app-tickets-list',
   standalone: true,
-  imports: [MatTableModule],
+  imports: [MatTableModule, MatIconModule, MatDialog],
   templateUrl: './tickets-list.component.html',
   styleUrl: './tickets-list.component.scss'
 })
 export class TicketsListComponent implements OnInit {
-  displayedColumns: string[] = ['protocol', 'subject', 'urgency', 'category', 'status', 'type', 'id'];
+  displayedColumns: string[] = ['protocol', 'subject', 'urgency', 'category', 'status', 'type', 'action'];
   dataSource: Ticket[] = [];
 
   constructor(
-    private readonly httpService: HttpService
+    private readonly httpService: HttpService,
+    private readonly matDialog: MatDialog
   ) {}
 
   ngOnInit(): void {
@@ -36,6 +41,24 @@ export class TicketsListComponent implements OnInit {
     });
   }
   
+  public async edit(ticketId: string): Promise<void> {
+    const result = await this.openDetailModal(ticketId);
+  }
+
+  private async openDetailModal(ticket: any): Promise<void> {
+    const dialogRef = this.matDialog.open(DetailModalComponent, {
+      position: {
+        top: '0',
+        right: '0'
+      },
+      data: ticket,
+      panelClass: ['animate-slide-in-right', 'no-rounded-container'],
+      autoFocus:false
+    });
+
+    return firstValueFrom(dialogRef.afterClosed());
+  }
+
   // private mapItemsToTableDataSource(items: Ticket[]): Ticket[] {
   //   return items.map((item) => {
   //     return {
