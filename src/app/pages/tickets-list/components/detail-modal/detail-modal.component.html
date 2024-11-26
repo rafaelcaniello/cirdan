@@ -1,1 +1,69 @@
-<p>detail-modal works!</p>
+<div class="modal modal__header">
+	<h2 class="modal__title">Detalhes do ticket</h2>
+	<button mat-icon-button (click)="closeDetailModal()">
+		<mat-icon aria-hidden="false" fontIcon="close"></mat-icon>
+	</button>
+</div>
+<div class="modal modal__content">
+	<mat-form-field appearance="outline" class="input__width input__margin">
+		<mat-label>Protocolo</mat-label>
+		<input matInput placeholder="Protocolo" [value]="ticket()?.protocol">
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="input__width input__margin">
+		<mat-label>Tipo</mat-label>
+		<mat-select [ngModel]="ticket()?.type">
+			<mat-option *ngFor="let type of ticketTypes" [value]="type">
+				{{ type }}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="input__width input__margin">
+		<mat-label>Assunto</mat-label>
+		<input matInput placeholder="Assunto" [value]="ticket()?.subject">
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="input__width input__margin">
+		<mat-label>Categoria</mat-label>
+		<input matInput placeholder="Categoria" [value]="ticket()?.category">
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="input__width input__margin">
+		<mat-label>Urgência</mat-label>
+		<mat-select [ngModel]="ticket()?.urgency">
+			<mat-option *ngFor="let urgency of ticketUrgencies" [value]="urgency">
+				{{ urgency }}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="input__width input__margin">
+		<mat-label>Status</mat-label>
+		<input matInput placeholder="Status" [value]="ticket()?.status" disabled="true">
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="input__width input__margin">
+		<mat-label>Justificativa</mat-label>
+		<mat-select [ngModel]="ticket()?.justification">
+			<mat-option *ngFor="let justification of ticketJustifications" [value]="justification">
+				{{ justification }}
+			</mat-option>
+		</mat-select>
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="input__width input__margin">
+		<mat-label>Responsável</mat-label>
+		<input matInput placeholder="Data de criação" [value]="ticket()?.owner?.businessName">
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="input__width input__margin">
+		<mat-label>Data de criação</mat-label>
+		<input matInput placeholder="Data de criação" [value]="ticket()?.createdDate | date: 'dd/MM/yyyy hh:mm'" disabled="true">
+	</mat-form-field>
+
+	<mat-form-field appearance="outline" class="input__width input__margin">
+		<mat-label>Criado por</mat-label>
+		<input matInput placeholder="Data de criação" [value]="ticket()?.createdBy?.businessName">
+	</mat-form-field>
+</div>
